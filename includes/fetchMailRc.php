@@ -266,7 +266,7 @@ class fetchMailRc {
         
         // Generate command
         $command = sprintf(
-            'echo "poll %s with protocol %s user %s password %s" is %s %s | LANG="' . $user['language'] . '.utf8" fetchmail %s %s -t 10 --pidfile /tmp/fetchmail_rc-%s.pid -f - 2>&1',
+            'echo "poll %s with protocol %s user \"%s\" password \"%s\"" is %s %s | LANG="' . $user['language'] . '.utf8" fetchmail %s %s -t 10 --pidfile /tmp/fetchmail_rc-%s.pid -f - 2>&1',
             $this->mail_host,
             $this->mail_protocol,
             $this->mail_username,
