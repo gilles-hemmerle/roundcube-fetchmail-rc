@@ -4,7 +4,7 @@
  * fetchmail_rc is a plugin that allows users 
  * to check some differents accounts directly in their roudcube application
  * 
- * Think to add the 'fetchmail_rc' in the $rcmail_config['plugins'] array on the main.inc.php file
+ * Think to add the 'fetchmail_rc' in the $config['plugins'] array on the main.inc.php file
  * in order to activate this plugin
  *
  * @author Gilles Hemmerlé (iabsis) <giloux@gmail.com> 

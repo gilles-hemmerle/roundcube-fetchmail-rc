@@ -16,7 +16,7 @@ if(php_sapi_name() !== "cli") {
 
 ## Starting roundcube environnement #####################################################
 require_once dirname(__FILE__) . "/config.inc.php";
-define("INSTALL_PATH", $rcmail_config['fetchmail_rc_roundcube_install_path']);
+define("INSTALL_PATH", $config['fetchmail_rc_roundcube_install_path']);
 require_once INSTALL_PATH . "/program/include/iniset.php";
 require_once "includes/fetchMailRcList.php";
 
