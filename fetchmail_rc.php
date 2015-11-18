@@ -255,7 +255,7 @@ class fetchmail_rc extends rcube_plugin {
                 ->set_mail_host(get_input_value('_mail_host', RCUBE_INPUT_POST))
                 ->set_fk_user($this->rcmail->user->data['user_id'])
                 ->set_mail_username(get_input_value('_mail_username', RCUBE_INPUT_POST))
-                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST))
+                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST, true))
                 ->set_mail_arguments(get_input_value('_mail_arguments', RCUBE_INPUT_POST))
                 ->set_mail_protocol(get_input_value('_mail_protocol', RCUBE_INPUT_POST))
                 ->set_mail_enabled(!get_input_value('_mail_disabled', RCUBE_INPUT_POST))
@@ -353,7 +353,7 @@ class fetchmail_rc extends rcube_plugin {
                 ->set_fk_user($this->rcmail->user->data['user_id'])
                 ->set_mail_host(get_input_value('_mail_host', RCUBE_INPUT_POST))
                 ->set_mail_username(get_input_value('_mail_username', RCUBE_INPUT_POST))
-                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST))
+                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST, true))
                 ->set_mail_arguments(get_input_value('_mail_arguments', RCUBE_INPUT_POST))
                 ->set_mail_protocol(get_input_value('_mail_protocol', RCUBE_INPUT_POST))
                 ->set_mail_ssl(get_input_value('_mail_ssl', RCUBE_INPUT_POST));
