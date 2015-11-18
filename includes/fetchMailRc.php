@@ -301,7 +301,7 @@ class fetchMailRc
             escapeshellarg($this->mail_host),
             escapeshellarg($this->mail_protocol),
             escapeshellarg($this->mail_username),
-            escapeshellarg($this->get_mail_password()),
+            '"' . escapeshellarg($this->get_mail_password()) . '"',
             escapeshellarg($default_identity['email']),
             ($this->mail_ssl == 1 ? 'ssl' : ''),
             escapeshellcmd($fetchmailCommandPart)
