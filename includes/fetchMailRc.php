@@ -310,6 +310,7 @@ class fetchMailRc
 
         // Launch command
         $output_lines = $returned_code = null;
+	//write_log("fetchmail_rc", $command);
         exec($command, $output_lines, $returned_code);
         // Throw errors if necessary
         switch ($returned_code) {

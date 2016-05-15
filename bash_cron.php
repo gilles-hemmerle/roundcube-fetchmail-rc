@@ -2,7 +2,7 @@
 <?php
 
 /**
- * This a script that should be added in your crontab. It will parse all the user's account and retrive their mails
+ * This a script that should be added in your crontab. It will parse all the user's account and retrieve their mails
  * into the local server with fetchmail.
  * 
  * @author Gilles Hemmerlé (iabsis) <giloux@gmail.com> 
@@ -51,9 +51,9 @@ foreach ($accountsList as $currentAccount) {
             // If account has been retrieved, reset errers and set the update date
             $currentAccount->set_error('')->set_count_errors(0)->set_last_retrieve(date("Y-m-d H:i:s"))->save();
         }
-        console_show("Account retived !");
+        console_show("Account retrieved !");
     } catch (Exception $exc) {
-        // Show error if retrive failed              
+        // Show error if retrieve failed              
         try {
             // Save the issue message and increment the errors count  
             $currentAccount
