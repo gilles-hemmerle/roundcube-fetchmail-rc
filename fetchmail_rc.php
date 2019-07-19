@@ -250,8 +250,7 @@ class fetchmail_rc extends rcube_plugin {
         $id = rcube_utils::get_input_value('_fetchmail_rc_id', rcube_utils::INPUT_POST);            
         
         try {
-		$fetchmailRc = new fetchMailRc($id);
-		rcmail::write_log("console", "ssl raw: " . rcube_utils::get_input_value('_mail_ssl', rcube_utils::INPUT_POST));
+            $fetchmailRc = new fetchMailRc($id);
             $fetchmailRc
                 ->set_mail_host(rcube_utils::get_input_value('_mail_host', rcube_utils::INPUT_POST))
                 ->set_fk_user($this->rcmail->user->data['user_id'])
@@ -264,7 +263,6 @@ class fetchmail_rc extends rcube_plugin {
                 ->set_count_errors(0)
                 ->set_mail_ssl(rcube_utils::get_input_value('_mail_ssl', rcube_utils::INPUT_POST));
 
-	rcmail::write_log("console", "ssl saved: " . $fetchmailRc->get_mail_ssl());
             $saved = $fetchmailRc->save();
         } catch(Exception $e) {
             $this->rcmail->output->command('plugin.save_error', Array("error" => $e->getMessage()));
