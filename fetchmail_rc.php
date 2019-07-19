@@ -301,7 +301,7 @@ class fetchmail_rc extends rcube_plugin {
         $accounts_list = $this->accounts_get_sorted_list();
 
         if (count($accounts_list) == 0) {
-                $table->add(array('colspan' => '2'), rep_specialchars_output($this->gettext('noaccounts')));
+                $table->add(array('colspan' => '2'), rcube_utils::rep_specialchars_output($this->gettext('noaccounts')));
         }
         else foreach($accounts_list as $account) {
             $idx =  $account['fetchmail_rc_id'];
