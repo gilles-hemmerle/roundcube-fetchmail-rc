@@ -112,10 +112,10 @@ class fetchmail_rc extends rcube_plugin {
     function gen_form($attrib) {
         require_once dirname(__FILE__) . '/includes/fetchMailRc.php';
         
-        $fetchmail_rc_id = get_input_value('_fetchmail_rc_id', RCUBE_INPUT_GET);
+	$fetchmail_rc_id = rcube_utils::get_input_value('_fetchmail_rc_id', rcube_utils::INPUT_GET);
         $fetchmailDatas = new fetchMailRc($fetchmail_rc_id);
-        
-        // Show hidden input with the id
+
+	// Show hidden input with the id
         $hidden_id = new html_hiddenfield(array("id" => "_fetchmail_rc_id", "name" => "_fetchmail_rc_id", "value" => $fetchmail_rc_id));        
 
         $formToReturn .= '<form action="" id="fetchmail_rc_form" class="propform"><fieldset><legend>' . $this->gettext("configuration") . '</legend>' . $formToReturn .= $hidden_id->show();
@@ -123,37 +123,37 @@ class fetchmail_rc extends rcube_plugin {
         
         // Mail host
         $field_name = "_mail_host";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_host'))) . ' <span class="required">*</span></td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_host'))) . ' <span class="required">*</span></td><td>' ;
         $input_name = new html_inputfield(array('name' => $field_name, 'id' => $field_name, 'value' => $fetchmailDatas->get_mail_host()));          
         $formToReturn .= $input_name->show() . "</td></tr>";
         
         // Mail host
         $field_name = "_mail_ssl";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_ssl'))) . '</td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_ssl'))) . '</td><td>' ;
         $input_ssl = new html_checkbox(array('name' => $field_name, 'id' => $field_name, "value" => 1));         
         $formToReturn .= $input_ssl->show($fetchmailDatas->get_mail_ssl()) . "</td></tr>";
         
         // Mail Login
         $field_name = "_mail_username";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_username'))) . ' <span class="required">*</span></td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_username'))) . ' <span class="required">*</span></td><td>' ;
         $input_username = new html_inputfield(array('name' => $field_name, 'id' => $field_name, 'value' => $fetchmailDatas->get_mail_username()));                
         $formToReturn .= $input_username->show() . "</td></tr>";       
         
         // Mail password
         $field_name = "_mail_password";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_password'))) . ' <span class="required">*</span></td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_password'))) . ' <span class="required">*</span></td><td>' ;
         $input_password = new html_passwordfield(array('name' => $field_name, 'id' => $field_name));        
         $formToReturn .= $input_password->show() . "</td></tr>";
         
         // Mail arguments
         $field_name = "_mail_arguments";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_arguments'))) . '</td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_arguments'))) . '</td><td>' ;
         $input_arguments = new html_inputfield(array('name' => $field_name, 'id' => $field_name, 'value' => $fetchmailDatas->get_mail_arguments()));         
         $formToReturn .= $input_arguments->show() . "</td></tr>";
         
         // Mail protocol
         $field_name = "_mail_protocol";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_protocol'))) . ' <span class="required">*</span></td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_protocol'))) . ' <span class="required">*</span></td><td>' ;
         $input_protocol = new html_select(array('name' => $field_name, 'id' => $field_name));  
         $input_protocol->add(fetchMailRc::PROTOCOL_AUTO,fetchMailRc::PROTOCOL_AUTO);
         $input_protocol->add(fetchMailRc::PROTOCOL_IMAP,fetchMailRc::PROTOCOL_IMAP);
@@ -163,7 +163,7 @@ class fetchmail_rc extends rcube_plugin {
         
         // Mail disabled
         $field_name = "_mail_disabled";
-        $formToReturn .= '<tr><td class="title">' . html::label($field_name, Q($this->gettext('mail_disabled'))) . '</td><td>' ;
+        $formToReturn .= '<tr><td class="title">' . html::label($field_name, rcube::Q($this->gettext('mail_disabled'))) . '</td><td>' ;
         $input_enabled = new html_checkbox(array('name' => $field_name, 'id' => $field_name, "value" => 1));  
         if($fetchmail_rc_id) {
             $formToReturn .= $input_enabled->show(!$fetchmailDatas->get_enabled()) . "</td></tr>";
@@ -221,7 +221,7 @@ class fetchmail_rc extends rcube_plugin {
         
         try {
             require_once dirname(__FILE__) . '/includes/fetchMailRc.php';
-            $id = get_input_value('_fetchmail_rc_id', RCUBE_INPUT_POST);
+            $id = rcube_utils::get_input_value('_fetchmail_rc_id', rcube_utils::INPUT_POST);
             $fetchmailRc = new fetchMailRc($id);
             $deleted = $fetchmailRc->delete();
         } catch (Exception $e) {
@@ -247,22 +247,24 @@ class fetchmail_rc extends rcube_plugin {
         require_once dirname(__FILE__) . '/includes/fetchMailRc.php';
         
         $this->rcmail->output->add_label('fetchmail_rc.new_account_saved', 'fetchmail_rc.account_updated', 'fetchmail_rc.save_error');
-        $id = get_input_value('_fetchmail_rc_id', RCUBE_INPUT_POST);            
+        $id = rcube_utils::get_input_value('_fetchmail_rc_id', rcube_utils::INPUT_POST);            
         
         try {
-            $fetchmailRc = new fetchMailRc($id);
+		$fetchmailRc = new fetchMailRc($id);
+		rcmail::write_log("console", "ssl raw: " . rcube_utils::get_input_value('_mail_ssl', rcube_utils::INPUT_POST));
             $fetchmailRc
-                ->set_mail_host(get_input_value('_mail_host', RCUBE_INPUT_POST))
+                ->set_mail_host(rcube_utils::get_input_value('_mail_host', rcube_utils::INPUT_POST))
                 ->set_fk_user($this->rcmail->user->data['user_id'])
-                ->set_mail_username(get_input_value('_mail_username', RCUBE_INPUT_POST))
-                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST, true))
-                ->set_mail_arguments(get_input_value('_mail_arguments', RCUBE_INPUT_POST))
-                ->set_mail_protocol(get_input_value('_mail_protocol', RCUBE_INPUT_POST))
-                ->set_mail_enabled(!get_input_value('_mail_disabled', RCUBE_INPUT_POST))
+                ->set_mail_username(rcube_utils::get_input_value('_mail_username', rcube_utils::INPUT_POST))
+                ->set_mail_password(rcube_utils::get_input_value('_mail_password', rcube_utils::INPUT_POST, true))
+                ->set_mail_arguments(rcube_utils::get_input_value('_mail_arguments', rcube_utils::INPUT_POST))
+                ->set_mail_protocol(rcube_utils::get_input_value('_mail_protocol', rcube_utils::INPUT_POST))
+                ->set_mail_enabled(!rcube_utils::get_input_value('_mail_disabled', rcube_utils::INPUT_POST))
                 ->set_error('')
                 ->set_count_errors(0)
-                ->set_mail_ssl(get_input_value('_mail_ssl', RCUBE_INPUT_POST));
+                ->set_mail_ssl(rcube_utils::get_input_value('_mail_ssl', rcube_utils::INPUT_POST));
 
+	rcmail::write_log("console", "ssl saved: " . $fetchmailRc->get_mail_ssl());
             $saved = $fetchmailRc->save();
         } catch(Exception $e) {
             $this->rcmail->output->command('plugin.save_error', Array("error" => $e->getMessage()));
@@ -308,9 +310,9 @@ class fetchmail_rc extends rcube_plugin {
             $table->set_row_attribs(array('id' => 'rcmrow' . $idx));
 
             if ($account['mail_enabled'] == 0)
-                    $table->add(null, Q($account['mail_host']) . ' (' . $this->gettext('disabled') . ')');
+                    $table->add(null, rcube::Q($account['mail_host']) . ' (' . $this->gettext('disabled') . ')');
             else
-                    $table->add(null, Q($account['mail_host']) . ($account['count_error'] > 0 ? ' (' . $this->gettext('short_mail_error') . ')' : ''));
+                    $table->add(null, rcube::Q($account['mail_host']) . ($account['count_error'] > 0 ? ' (' . $this->gettext('short_mail_error') . ')' : ''));
 
         }
 
@@ -324,6 +326,7 @@ class fetchmail_rc extends rcube_plugin {
     function accounts_get_sorted_list() {
         require_once dirname(__FILE__) . '/includes/fetchMailRcList.php';
         $user_id = $this->rcmail->user->data['user_id'];
+    
         $accounts = array();
         $accountsList = new fetchMailRcList($this->rcmail->db, $user_id);
         foreach ($accountsList as $currentAccount) {
@@ -345,18 +348,18 @@ class fetchmail_rc extends rcube_plugin {
         require_once dirname(__FILE__) . '/includes/fetchMailRc.php';
         
         $this->rcmail->output->add_label('fetchmail_rc.error_during_process');
-        $id = get_input_value('_fetchmail_rc_id', RCUBE_INPUT_POST);            
+        $id = rcube_utils::get_input_value('_fetchmail_rc_id', rcube_utils::INPUT_POST);            
         
         try {
             $fetchmailRc = new fetchMailRc($id);
             $fetchmailRc
                 ->set_fk_user($this->rcmail->user->data['user_id'])
-                ->set_mail_host(get_input_value('_mail_host', RCUBE_INPUT_POST))
-                ->set_mail_username(get_input_value('_mail_username', RCUBE_INPUT_POST))
-                ->set_mail_password(get_input_value('_mail_password', RCUBE_INPUT_POST, true))
-                ->set_mail_arguments(get_input_value('_mail_arguments', RCUBE_INPUT_POST))
-                ->set_mail_protocol(get_input_value('_mail_protocol', RCUBE_INPUT_POST))
-                ->set_mail_ssl(get_input_value('_mail_ssl', RCUBE_INPUT_POST));
+                ->set_mail_host(rcube_utils::get_input_value('_mail_host', rcube_utils::INPUT_POST))
+                ->set_mail_username(rcube_utils::get_input_value('_mail_username', rcube_utils::INPUT_POST))
+                ->set_mail_password(rcube_utils::get_input_value('_mail_password', rcube_utils::INPUT_POST, true))
+                ->set_mail_arguments(rcube_utils::get_input_value('_mail_arguments', rcube_utils::INPUT_POST))
+                ->set_mail_protocol(rcube_utils::get_input_value('_mail_protocol', rcube_utils::INPUT_POST))
+                ->set_mail_ssl(rcube_utils::get_input_value('_mail_ssl', rcube_utils::INPUT_POST));
             
             if($test_mode == true) {
                 $retrieved = $fetchmailRc->test_account();
@@ -379,7 +382,5 @@ class fetchmail_rc extends rcube_plugin {
         $this->rcmail->output->command('plugin.retrieve_account_finished', $vars);
         $this->rcmail->output->send('plugin');
     }
-    
-    
     
 }

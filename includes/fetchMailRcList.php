@@ -41,16 +41,15 @@ class fetchMailRcList implements Iterator {
         // Retrieve the accounts list
         if($user_id != -1) {
             $sql_result = $this->dbm->query(
-                "SELECT * FROM " . get_table_name('fetchmail_rc') . " WHERE fk_user=?",
+                "SELECT * FROM " . $this->dbm->table_name('fetchmail_rc') . " WHERE fk_user=?",
                 $user_id
             );
         }
         else {
             $sql_result = $this->dbm->query(
-                "SELECT * FROM " . get_table_name('fetchmail_rc')
+                "SELECT * FROM " . $this->dbm->table_name('fetchmail_rc')
             );
         }
-        
         while ($account = $this->dbm->fetch_assoc($sql_result)) {
             $fetchmailRc = new fetchMailRc();
             $fetchmailRc->from_array($account);

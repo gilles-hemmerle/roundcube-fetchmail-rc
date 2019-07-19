@@ -133,7 +133,7 @@ class fetchMailRc
     {
         $user_id = $this->rcmail->user->data['user_id'];
         $sql_result = $this->rcmail->db->query(
-            "SELECT * FROM " . get_table_name('fetchmail_rc') . " WHERE fetchmail_rc_id=?",
+            "SELECT * FROM " . $this->rcmail->db->table_name('fetchmail_rc') . " WHERE fetchmail_rc_id=?",
             $this->id
         );
         $account_data = $this->rcmail->db->fetch_assoc($sql_result);
@@ -175,7 +175,7 @@ class fetchMailRc
             throw new Exception("Compte inconnu");
         }
         
-        $sql_query = "REPLACE INTO " . get_table_name('fetchmail_rc') . " (
+        $sql_query = "REPLACE INTO " . $this->rcmail->db->table_name('fetchmail_rc') . " (
                      fetchmail_rc_id,
                      fk_user,
                      mail_host,
@@ -200,9 +200,9 @@ class fetchMailRc
                 $this->mail_host,
                 $this->mail_username,
                 $this->mail_password,
-                $this->mail_enabled,
+                (int)$this->mail_enabled,
                 $this->mail_arguments,
-                $this->mail_ssl,
+                (int)$this->mail_ssl,
                 $this->mail_protocol,
                 $this->mail_date_last_retrieve,
                 $this->count_error,
@@ -230,7 +230,7 @@ class fetchMailRc
      */
     public function delete()
     {
-        $sql_query = "DELETE FROM " . get_table_name('fetchmail_rc') . " 
+        $sql_query = "DELETE FROM " . $this->rcmail->db->table_name('fetchmail_rc') . " 
                       WHERE fk_user=? AND fetchmail_rc_id=? ";
         
         try {
@@ -273,13 +273,13 @@ class fetchMailRc
     private function start_procmail($test_mode = true)
     {
         $sql_result = $this->rcmail->db->query(
-            "SELECT * FROM " . get_table_name('users') . " WHERE user_id=?",
+            "SELECT * FROM " . $this->rcmail->db->table_name('users') . " WHERE user_id=?",
             $this->fk_user
         );
         $user = $this->rcmail->db->fetch_assoc($sql_result);
 
         $sql_default_identigy = $sql_result = $this->rcmail->db->query(
-            "SELECT * FROM " . get_table_name('identities') . " WHERE standard=1 AND user_id=?",
+            "SELECT * FROM " . $this->rcmail->db->table_name('identities') . " WHERE standard=1 AND user_id=?",
             $this->fk_user
         );
         $default_identity = $this->rcmail->db->fetch_assoc($sql_result);
@@ -303,14 +303,14 @@ class fetchMailRc
             escapeshellarg($this->mail_username),
             '"' . escapeshellarg($this->get_mail_password()) . '"',
             escapeshellarg($default_identity['email']),
-            ($this->mail_ssl == 1 ? 'ssl' : ''),
+            ($this->mail_ssl ? 'ssl sslproto "\'auto\'" sslcertck' : 'sslproto "\'\'"'),
             escapeshellcmd($fetchmailCommandPart)
         );
                 
 
         // Launch command
         $output_lines = $returned_code = null;
-	//write_log("fetchmail_rc", $command);
+	//rcmail::write_log("fetchmail_rc", $command);
         exec($command, $output_lines, $returned_code);
         // Throw errors if necessary
         switch ($returned_code) {
